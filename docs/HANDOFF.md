@@ -23,6 +23,19 @@ dashes (user preference).
 | SD card | `/run/media/shoots/E010-96EB` (OnionOS 4.4.0 beta); port in `Roms/PORTS/Games/ScorchedEarth`, shortcut `Roms/PORTS/Shortcuts/Strategy/Scorched Earth.port` |
 | Toolchain image | `gta1-miyoo-toolchain` (shared with the GTA1 port; `Dockerfile` here builds the same) |
 
+## Releases
+
+v0.3.3 (2026-10-21) is the first public release: github.com/uncannyowly/scorched-emiyoolator,
+asset `scorched-emiyoolator-0.3.3.zip` (extract to the SD card root; top level `Roms/`).
+The user chose to bundle the shareware game unmodified (its manual: "Feel free to upload
+the shareware version of Scorch to your favorite local BBS, and share it with your
+friends"); never bundle a registered version. Steps: bump `VERSION`, `scripts/package.sh`,
+check the zip (only `Roms/` at the top; game files byte-identical to `Original_EXE/`;
+the packaged binary boots under QEMU with 0 interpreted instructions), commit, annotated
+tag `vX.Y.Z`, push, then create the release and upload the zip through the GitHub REST
+API (no gh CLI here). Release notes: what it is, install/update/remove, controls table,
+the shareware note, tested hardware, where the log is, the zip's SHA-256.
+
 ## The executable (recon)
 
 - MZ, TLINK 6.1 (Borland C++ 4.0), 388320-byte image, 6136 relocations, no overlays,
