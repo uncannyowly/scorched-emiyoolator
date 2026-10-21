@@ -21,8 +21,37 @@ your own copy of the game (`Original_EXE/`) and writes the translated code to `b
 The release zip is ready to play: it includes the shareware version of Scorched Earth
 1.5, unmodified (the author's manual says to share it with your friends), next to the
 native build of the port. Updating works the same way and keeps your settings and saved
-games. Controls and a first-game walkthrough:
-[`README.txt`](packaging/Roms/PORTS/Games/ScorchedEarth/README.txt).
+games. A first-game walkthrough is in
+[`README.txt`](packaging/Roms/PORTS/Games/ScorchedEarth/README.txt), installed next to the
+game.
+
+## Controls
+
+| Button | PC key | What it does |
+|---|---|---|
+| D-pad | arrow keys | Aim: left/right turns the turret, up/down sets the power (the numbers run fast while you hold). Menus, the shop's marker. |
+| A | Space | Fire. Buy in the shop. |
+| B | Esc | Back, cancel, finish buying. |
+| X | Tab | Next weapon (hold L1 for the previous one). |
+| Y | Enter | OK, Done. |
+| L1, held | Shift | With the D-pad: aim at half speed. |
+| R1, held | Alt | With the D-pad: one step per press (keep holding for slow repeats). |
+| L2 / R2 | Page Down / Page Up | Power down / up fast. Shop pages. |
+| START | F1 | System menu: save and restore games, new game, mass kill, quit. |
+| SELECT, tap | | On-screen keyboard, for names and the menus' hot keys. |
+| SELECT, hold | | Mouse pointer: tap the D-pad to move it one pixel, hold to glide (it speeds up the longer you hold). A and B click left and right. |
+| MENU, tap | | Mouse click where the pointer is. |
+| MENU, hold 2 s | | Quit at once. |
+
+- **Aiming:** hold the D-pad to get close, then hold R1 and tap the D-pad for single steps.
+- **On-screen keyboard:** the D-pad picks a key, A types it, X is backspace, Y shift,
+  START Enter; B or SELECT closes it, and L1/R1 move it to the top or bottom of the
+  screen. The menus' hot keys are the letters shown in colour (S = Start, H = Hardware...).
+- **Mouse speed:** the game's own Mouse Rate (Hardware menu) scales the pointer too.
+- **Quitting the usual way:** START, Quit Game, Yes, then A on the closing screen.
+- **Screen:** the game starts in 320x240, which fills the screen with readable text. For
+  more detail and smaller text, choose Hardware... > Graphics Mode 640x480 in the main
+  menu, then Save Changes, quit and start again.
 
 ## How it works
 
