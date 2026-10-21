@@ -1,0 +1,62 @@
+# 1. main menu: SELECT, D D R R (S), A, B
+# 2. player 1: SELECT, A (S), START, START, B
+# 3. player 2: B, X, SELECT, D R R R R R (M), A, START, B
+1500 pad SELECT
+1600 pad
+1800 pad DOWN
+1900 pad
+2000 pad DOWN
+2100 pad
+2200 pad RIGHT
+2300 pad
+2400 pad RIGHT
+2500 pad
+2600 pad A
+2700 pad
+2800 pad B
+2900 pad
+4000 pad SELECT
+4100 pad
+4300 pad A
+4400 pad
+4600 pad START
+4700 pad
+4900 pad START
+5000 pad
+5200 pad B
+5300 pad
+5600 shot build/shots/w1.ppm
+6000 pad B
+6100 pad
+6400 pad X
+6500 pad
+6800 pad SELECT
+6900 pad
+7100 pad DOWN
+7200 pad
+7300 pad RIGHT
+7400 pad
+7500 pad RIGHT
+7600 pad
+7700 pad RIGHT
+7800 pad
+7900 pad RIGHT
+8000 pad
+8100 pad RIGHT
+8200 pad
+8300 shot build/shots/w2.ppm
+8400 pad A
+8500 pad
+8700 pad START
+8800 pad
+9000 pad B
+9100 pad
+13000 shot build/shots/w3.ppm
+13500 pad UP
+14200 pad
+14500 pad A
+14600 pad
+14700 shot build/shots/f1.ppm
+15200 shot build/shots/f2.ppm
+16000 shot build/shots/f3.ppm
+18000 shot build/shots/f4.ppm

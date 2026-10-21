@@ -1,0 +1,5 @@
+build/
+dist/
+*.ppm
+# your copy of the game: never commit it or anything made from it
+Original_EXE/

@@ -1,0 +1,37 @@
+1500 key s
+2500 type Seth
+3200 key enter
+4000 key enter
+5000 key esc
+5500 key tab
+6500 key m
+7500 key enter
+12000 shot build/shots/m0.ppm
+12200 pad UP
+12300 pad
+12500 shot build/shots/m1.ppm
+12600 pad UP
+14600 pad
+14800 shot build/shots/m2.ppm
+15000 pad L1
+15100 pad L1 UP
+17100 pad L1
+17200 pad
+17400 shot build/shots/m3.ppm
+17500 pad R1
+17600 pad R1 UP
+19600 pad R1
+19700 pad
+19900 shot build/shots/m4.ppm
+20000 pad R1
+20100 pad R1 UP
+20200 pad R1
+20300 pad R1 UP
+20400 pad R1
+20500 pad
+20700 shot build/shots/m5.ppm
+21000 pad L1
+21100 pad L1 X
+21200 pad L1
+21300 pad
+21500 shot build/shots/m6.ppm

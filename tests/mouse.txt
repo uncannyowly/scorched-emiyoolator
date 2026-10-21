@@ -1,0 +1,19 @@
+# hold SELECT and steer down-right, then release: no keyboard must appear
+1500 pad SELECT
+1600 pad SELECT DOWN RIGHT
+2000 pad SELECT
+2100 pad
+2600 shot build/shots/m1.ppm
+# also SELECT + A (click while steering), release
+3000 pad SELECT
+3100 pad SELECT A
+3200 pad SELECT
+3300 pad
+3800 shot build/shots/m2.ppm
+# put the game's pointer on Start, then tap MENU
+4000 mickeys -2000 -2000
+4100 mickeys 40 30
+4500 shot build/shots/m3.ppm
+4600 pad MENU
+4700 pad
+6500 shot build/shots/m4.ppm
