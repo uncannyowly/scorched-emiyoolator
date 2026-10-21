@@ -9,6 +9,21 @@ expects around it: DOS, a VGA/VESA card, keyboard, mouse, timer and PC speaker.
 The repository contains no game data and nothing generated from it. The build reads
 your own copy of the game (`Original_EXE/`) and writes the translated code to `build/gen/`.
 
+## Install
+
+1. Download `scorched-emiyoolator-<version>.zip` from the
+   [latest release](https://github.com/uncannyowly/scorched-emiyoolator/releases/latest).
+2. Extract it to the root of the SD card of a Miyoo Mini, Mini v4 or Mini Plus running
+   OnionOS. The zip holds a `Roms` folder that merges with the card's own.
+3. On the Mini: Games > Ports > Strategy > Scorched Earth. If it is not listed yet, run
+   "~Import ports" in the Ports list.
+
+The release zip is ready to play: it includes the shareware version of Scorched Earth
+1.5, unmodified (the author's manual says to share it with your friends), next to the
+native build of the port. Updating works the same way and keeps your settings and saved
+games. Controls and a first-game walkthrough:
+[`README.txt`](packaging/Roms/PORTS/Games/ScorchedEarth/README.txt).
+
 ## How it works
 
 | Part | Where |
@@ -77,12 +92,6 @@ Script lines are `<ms> key <name> [down|up]`, `type <text>`, `mouse <x> <y>`,
 `mickeys <dx> <dy>`, `click [left|right]`, `pad <BUTTONS>`, `shot <file.ppm>`, `quit`.
 `SCORCH_SLEEPQ=6000` makes real-time sleeps as coarse as the Mini's (a 0.2 ms sleep takes
 about 9 ms there), to check that nothing timed depends on short sleeps.
-
-## Playing
-
-Controls and a first-game walkthrough are in
-[`packaging/Roms/PORTS/Games/ScorchedEarth/README.txt`](packaging/Roms/PORTS/Games/ScorchedEarth/README.txt),
-which is installed next to the game.
 
 ## License
 

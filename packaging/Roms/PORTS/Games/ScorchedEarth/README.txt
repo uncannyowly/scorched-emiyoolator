@@ -8,10 +8,19 @@ players, shop and PC speaker sounds are all the original's. Only the 1995
 PC around it is new: DOS, the VGA card, keyboard, mouse, timer and speaker
 are supplied by the port and mapped to the Mini's screen, buttons and sound.
 
+INSTALL
+-------
+For OnionOS on the Miyoo Mini, Mini v4 and Mini Plus. Extract the release
+zip to the root of the SD card: it holds a Roms folder, which merges with
+the card's own. To update, do the same; your settings, market prices and
+saved games are kept. To remove the game, delete
+Roms/PORTS/Games/ScorchedEarth, Roms/PORTS/Shortcuts/Strategy/Scorched
+Earth.port and Roms/PORTS/Imgs/Scorched Earth.png.
+
 START
 -----
-Games > Ports > Scorched Earth. If it is not listed yet, run "~Import
-ports" in the Ports collection.
+Games > Ports > Strategy > Scorched Earth. If it is not listed yet, run
+"~Import ports" in the Ports list.
 
 The game starts in 320x240, which fills the screen with big, readable
 text. For more detail and smaller text: Hardware... > Graphics Mode
