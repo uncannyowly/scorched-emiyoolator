@@ -18,7 +18,7 @@ dashes (user preference).
 
 | What | Where |
 |---|---|
-| This repo | `/mnt/data/git/MiYoo-Mini/scorched-emiyoolator` (not yet a git repo; the user creates GitHub repos on the web) |
+| This repo | `/mnt/data/git/MiYoo-Mini/scorched-emiyoolator`, public on GitHub as `uncannyowly/scorched-emiyoolator` (branch main, pushed over SSH) |
 | The user's game files | `Original_EXE/` (Scorched Earth 1.5 shareware: SCORCH.EXE 415456 bytes, 10 MTN mountains) |
 | SD card | `/run/media/shoots/E010-96EB` (OnionOS 4.4.0 beta); port in `Roms/PORTS/Games/ScorchedEarth`, shortcut `Roms/PORTS/Shortcuts/Strategy/Scorched Earth.port` |
 | Toolchain image | `gta1-miyoo-toolchain` (shared with the GTA1 port; `Dockerfile` here builds the same) |
