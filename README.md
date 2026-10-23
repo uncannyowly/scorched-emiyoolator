@@ -6,6 +6,8 @@ translates the game's own `SCORCH.EXE` (16-bit DOS, Borland C++ 4.0 and Fastgrap
 into C, which is compiled for the Mini. A small emulated PC supplies what the program
 expects around it: DOS, a VGA/VESA card, keyboard, mouse, timer and PC speaker.
 
+![Scorched Earth on the Miyoo Mini: a missile bursts on a mountain peak at sunset](docs/screenshot.png)
+
 The repository contains no game data and nothing generated from it. The build reads
 your own copy of the game (`Original_EXE/`) and writes the translated code to `build/gen/`.
 
