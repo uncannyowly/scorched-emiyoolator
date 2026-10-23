@@ -1,0 +1,231 @@
+# weapons: the walkfire setup and first round, then the shop: Riot Bomb (7 down, A),
+# Done; round 2 fires it with A every 4 s (X switches weapons now and then). Its
+# explosion reaches the pixel plotters at 182B:04A3/050E, 3AE4:0121 and the 3086 code
+# through far pointers the code builds: interpreted until 0.3.4 (1.2 M instructions).
+1500 pad SELECT
+1600 pad
+1800 pad DOWN
+1900 pad
+2000 pad DOWN
+2100 pad
+2200 pad RIGHT
+2300 pad
+2400 pad RIGHT
+2500 pad
+2600 pad A
+2700 pad
+2800 pad B
+2900 pad
+4000 pad SELECT
+4100 pad
+4300 pad A
+4400 pad
+4600 pad START
+4700 pad
+4900 pad START
+5000 pad
+5200 pad B
+5300 pad
+6000 pad B
+6100 pad
+6400 pad X
+6500 pad
+6800 pad SELECT
+6900 pad
+7100 pad DOWN
+7200 pad
+7300 pad RIGHT
+7400 pad
+7500 pad RIGHT
+7600 pad
+7700 pad RIGHT
+7800 pad
+7900 pad RIGHT
+8000 pad
+8100 pad RIGHT
+8200 pad
+8400 pad A
+8500 pad
+8700 pad START
+8800 pad
+9000 pad B
+9100 pad
+13500 pad UP
+14200 pad
+14500 pad A
+14600 pad
+20000 pad A
+20100 pad
+22000 pad B
+22100 pad
+24000 pad A
+24100 pad
+24300 pad UP
+24700 pad
+26000 pad B
+26100 pad
+28000 pad A
+28100 pad
+30000 pad B
+30100 pad
+32000 pad A
+32100 pad
+34000 pad B
+34100 pad
+36000 pad A
+36100 pad
+36300 pad UP
+36700 pad
+38000 pad B
+38100 pad
+39300 pad DOWN
+39400 pad
+39600 pad DOWN
+39700 pad
+39900 pad DOWN
+40000 pad
+40200 pad DOWN
+40300 pad
+40500 pad DOWN
+40600 pad
+40800 pad DOWN
+40900 pad
+41100 pad DOWN
+41200 pad
+41700 pad A
+41800 pad
+42500 pad B
+42600 pad
+43200 pad X
+43300 pad
+44000 pad A
+44100 pad
+46000 pad B
+46100 pad
+48000 pad A
+48100 pad
+48300 pad UP
+48700 pad
+50000 pad B
+50100 pad
+52000 pad A
+52100 pad
+54000 pad B
+54100 pad
+56000 pad A
+56100 pad
+58000 pad B
+58100 pad
+60000 pad A
+60100 pad
+60300 pad UP
+60700 pad
+61000 shot build/shots/x60.ppm
+62000 pad B
+62100 pad
+64000 pad A
+64100 pad
+66000 pad B
+66100 pad
+68000 pad A
+68100 pad
+70000 pad B
+70100 pad
+72000 pad A
+72100 pad
+72300 pad UP
+72700 pad
+74000 pad B
+74100 pad
+76000 pad A
+76100 pad
+78000 pad B
+78100 pad
+80000 pad A
+80100 pad
+81000 pad X
+81100 pad
+82000 pad B
+82100 pad
+84000 pad A
+84100 pad
+84300 pad UP
+84700 pad
+86000 pad B
+86100 pad
+88000 pad A
+88100 pad
+90000 pad B
+90100 pad
+92000 pad A
+92100 pad
+94000 pad B
+94100 pad
+96000 pad A
+96100 pad
+96300 pad UP
+96700 pad
+98000 pad B
+98100 pad
+100000 pad A
+100100 pad
+101000 shot build/shots/x100.ppm
+102000 pad B
+102100 pad
+104000 pad A
+104100 pad
+106000 pad B
+106100 pad
+108000 pad A
+108100 pad
+108300 pad UP
+108700 pad
+110000 pad B
+110100 pad
+112000 pad A
+112100 pad
+114000 pad B
+114100 pad
+116000 pad A
+116100 pad
+118000 pad B
+118100 pad
+120000 pad A
+120100 pad
+120300 pad UP
+120700 pad
+122000 pad B
+122100 pad
+124000 pad A
+124100 pad
+126000 pad B
+126100 pad
+128000 pad A
+128100 pad
+130000 pad B
+130100 pad
+132000 pad A
+132100 pad
+132300 pad UP
+132700 pad
+134000 pad B
+134100 pad
+136000 pad A
+136100 pad
+138000 pad B
+138100 pad
+140000 pad A
+140100 pad
+141000 shot build/shots/x140.ppm
+142000 pad B
+142100 pad
+144000 pad A
+144100 pad
+144300 pad UP
+144700 pad
+146000 pad B
+146100 pad
+148000 pad A
+148100 pad
+150000 pad B
+150100 pad

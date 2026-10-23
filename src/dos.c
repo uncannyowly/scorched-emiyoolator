@@ -35,7 +35,8 @@ typedef struct {
 	char dir[1024];
 	char pattern[128];
 	uint8_t attr;
-	DIR *d;
+	char **names; /* the directory's entries, read at find_first */
+	int n, pos;
 } Search;
 static Search searches[MAX_SEARCH];
 
@@ -393,6 +394,21 @@ static int wild_match(const char *pat, const char *name)
 	return 1;
 }
 
+/* a file's date and time for DOS: its real mtime, or in deterministic runs the fixed
+ * day dos_now() starts from (the game reads file dates, and copying the files for a
+ * test stamps them with the time of the copy: runs minutes apart took other paths) */
+static struct tm file_tm(time_t mtime)
+{
+	struct tm tm;
+	if (mcfg.realtime) {
+		localtime_r(&mtime, &tm);
+	} else {
+		time_t t = 802267200;
+		gmtime_r(&t, &tm);
+	}
+	return tm;
+}
+
 static void fill_dta(const char *dir, const char *name)
 {
 	char path[1024];
@@ -405,7 +421,7 @@ static void fill_dta(const char *dir, const char *name)
 	snprintf(path, sizeof(path), "%s/%s", dir, name);
 	if (stat(path, &st) != 0)
 		memset(&st, 0, sizeof(st));
-	localtime_r(&st.st_mtime, &tm);
+	tm = file_tm(st.st_mtime);
 	wr8(a + 0x15, S_ISDIR(st.st_mode) ? 0x10 : 0x20);
 	wr16(a + 0x16, (uint16_t)((tm.tm_hour << 11) | (tm.tm_min << 5) | (tm.tm_sec / 2)));
 	wr16(a + 0x18, (uint16_t)(((tm.tm_year - 80) << 9) | ((tm.tm_mon + 1) << 5) | tm.tm_mday));
@@ -417,30 +433,71 @@ static void fill_dta(const char *dir, const char *name)
 		wr8(a + 0x1E + i, (uint8_t)up[i < (int)strlen(up) ? i : (int)strlen(up)]);
 }
 
+/* descending: any fixed order makes runs reproducible; this is the order the tests
+ * were written against (tests/weapons.txt plays its Riot Bomb on a scanned rock
+ * mountain, the case that reaches the 182B pixel plotters) */
+static int cmp_name(const void *a, const void *b)
+{
+	return strcmp(*(char *const *)b, *(char *const *)a);
+}
+
+static void search_free(Search *s)
+{
+	int i;
+	for (i = 0; i < s->n; i++)
+		free(s->names[i]);
+	free(s->names);
+	s->names = NULL;
+	s->n = s->pos = 0;
+}
+
+/* the directory's entries in its own order (as DOS lists a FAT directory), or sorted by
+ * name in deterministic runs: the game chooses among the .MTN files it finds, and host
+ * file systems order directories differently (the same test in /tmp played another game) */
+static void search_read(Search *s)
+{
+	DIR *d = opendir(s->dir);
+	struct dirent *e;
+	int cap = 0;
+
+	s->names = NULL;
+	s->n = s->pos = 0;
+	if (!d)
+		return;
+	while ((e = readdir(d)) != NULL) {
+		if (s->n == cap) {
+			cap = cap ? cap * 2 : 64;
+			s->names = realloc(s->names, sizeof(char *) * (size_t)cap);
+		}
+		s->names[s->n++] = strdup(e->d_name);
+	}
+	closedir(d);
+	if (!mcfg.realtime && s->n > 1)
+		qsort(s->names, (size_t)s->n, sizeof(char *), cmp_name);
+}
+
 static void find_next_in(int id)
 {
 	Search *s = &searches[id];
-	struct dirent *e;
 
-	while (s->d && (e = readdir(s->d)) != NULL) {
+	while (s->pos < s->n) {
+		const char *name = s->names[s->pos++];
 		char path[1024];
 		struct stat st;
-		if (!wild_match(s->pattern, e->d_name))
+		if (!wild_match(s->pattern, name))
 			continue;
-		snprintf(path, sizeof(path), "%s/%s", s->dir, e->d_name);
+		snprintf(path, sizeof(path), "%s/%s", s->dir, name);
 		if (stat(path, &st) != 0)
 			continue;
 		if (S_ISDIR(st.st_mode) && !(s->attr & 0x10))
 			continue;
-		fill_dta(s->dir, e->d_name);
+		fill_dta(s->dir, name);
 		wr8(LIN(dta_seg, dta_off), (uint8_t)id);
 		wr8(LIN(dta_seg, dta_off + 1), 0xA5);
 		ok();
 		return;
 	}
-	if (s->d)
-		closedir(s->d);
-	s->d = NULL;
+	search_free(s);
 	s->used = 0;
 	fail(18);
 }
@@ -457,8 +514,7 @@ static void find_first(void)
 	if (id == MAX_SEARCH) {
 		/* recycle the oldest search */
 		id = 0;
-		if (searches[0].d)
-			closedir(searches[0].d);
+		search_free(&searches[0]);
 	}
 	slash = strrchr(dospath, '\\');
 	if (!slash)
@@ -479,7 +535,7 @@ static void find_first(void)
 	snprintf(searches[id].dir, sizeof(searches[id].dir), "%s", dir);
 	snprintf(searches[id].pattern, sizeof(searches[id].pattern), "%s", pat);
 	searches[id].attr = rCL;
-	searches[id].d = opendir(dir);
+	search_read(&searches[id]);
 	find_next_in(id);
 	if (rAX == 18) {
 		/* "no more files" from the first call is "file not found" */
@@ -981,7 +1037,7 @@ void dos_int21(void)
 			struct stat st;
 			struct tm tm;
 			fstat(handles[rBX], &st);
-			localtime_r(&st.st_mtime, &tm);
+			tm = file_tm(st.st_mtime);
 			rCX = (uint16_t)((tm.tm_hour << 11) | (tm.tm_min << 5) | (tm.tm_sec / 2));
 			rDX = (uint16_t)(((tm.tm_year - 80) << 9) | ((tm.tm_mon + 1) << 5) | tm.tm_mday);
 		}

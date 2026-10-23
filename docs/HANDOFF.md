@@ -27,6 +27,7 @@ dashes (user preference).
 
 v0.3.3 (2026-10-21) is the first public release: github.com/uncannyowly/scorched-emiyoolator,
 asset `scorched-emiyoolator-0.3.3.zip` (extract to the SD card root; top level `Roms/`).
+v0.3.4 (2026-10-23): more of the game as native code (see Status).
 The user chose to bundle the shareware game unmodified (its manual: "Feel free to upload
 the shareware version of Scorch to your favorite local BBS, and share it with your
 friends"); never bundle a registered version. Steps: bump `VERSION`, `scripts/package.sh`,
@@ -195,8 +196,34 @@ verified with a pad-only script (build/s_walk.txt).
       (4) Log: dropped timer ticks and the longest sleep.
       Verified: scripts/equivalence.sh arm (all identical). Note the cover session never
       leaves player 3's setup (true since 0.1.0); walkfire and mod2 cover play.
-- [ ] 0.3.3 on the device: "speed:" line (idle %, ticks dropped, longest sleep); aiming
-      speed with D-pad, L1, R1; what is still off with the pointer.
+- [x] 0.3.3 on the device: 2026-10-21 (103 s, menus): idle 88%, sleeps of 9.6 ms (longest
+      11.6), timer 3557/s. 2026-10-23 (434 s, "a few rounds", no freeze): 40.5 M
+      instructions/s while busy, idle 26%, 15037 sleeps of 7.5 ms (longest 13.9), timer
+      3543/s (97%, 30709 ticks dropped: timed things run ~2-3% slow, not noticed); 4.87 M
+      of 13.0 G instructions interpreted at 17 entry points (uncompiled.txt), mostly
+      182B:0427..053A with tens of thousands of hits each.
+- [x] 0.3.4: those 17 were functions reached only through far pointers the code builds
+      from immediates: `push seg / push off` (callback arguments: 182B:04A3 and 050E are
+      the pixel plotters of the Riot Bomb's circle, 331D:0004, 3AE4:0121) and
+      `mov es:[bx+1e],seg / mov es:[bx+1c],off` (2DD4:04D3); 182B:0427 and the rest are
+      called from those. recomp.c scan_code_pointers(): for each relocated imm16 (push imm,
+      mov reg/mem,imm) naming a code segment, the neighbouring instruction's imm16 is the
+      offset if it points at a Borland prologue (55 8B EC, C8 nn nn 00, or 1E B8 .. 8E D8).
+      +142 functions (1155; 859 resume points), the 17 device addresses added to
+      entries.txt too. Riot Charge / Baby Digger also reached 3086:0111.. (230 K
+      instructions interpreted by 0.3.3, now native), and with other terrain orders 1E5F
+      (466 K). New test sessions: `rounds` (4 min of play, several rounds) and `weapons`
+      (buys Riot Bomb and fires it on a scanned rock mountain: the 0.3.3 function table
+      interprets 1.2 M instructions there, at the device's 182B/3AE4 addresses plus 3086;
+      0.3.4 none). Determinism holes found on the way (runs in /tmp played other games
+      than runs under build/): DOS file dates came from the host mtimes (copy time) and
+      find-first listed directories in the host file system's order; in deterministic
+      runs dates are now the fixed 1995 day and listings sorted by name (descending, the
+      order the tests were written against). Real-time play on the Mini is unchanged.
+      scripts/equivalence.sh arm: all identical, and the packaged binary's trace matches
+      the PC interpreter's from a separate run.
+      QEMU's ARM binfmt handler is gone after a reboot: `docker run --privileged --rm
+      tonistiigi/binfmt --install arm` (else the ARM half fails with "exec format error").
 
 ## Things learned the hard way
 

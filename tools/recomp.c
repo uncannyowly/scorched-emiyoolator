@@ -12,6 +12,8 @@
  *  - the entry point, direct call/jump targets, Borland switch tables;
  *  - far pointers in data: relocated segment words pointing at a code
  *    segment, with the offset before them;
+ *  - far pointers the code builds from immediates (push seg / push off,
+ *    mov [x+2],seg / mov [x],off) that point at a function prologue;
  *  - entries.txt: addresses the runtime saw being interpreted
  *    ("SSSS:OOOO" per line), e.g. targets of calls through pointers.
  *
@@ -367,6 +369,87 @@ static int scan_far_pointers(void)
 		}
 		if (add_func(seg, off, 1) == nfuncs - 1)
 			added++;
+	}
+	return added;
+}
+
+/* push imm16, mov reg,imm16 or mov r/m16,imm16 (no 66h prefix): the immediate is the
+ * instruction's last word */
+static int ends_in_imm16(uint16_t cs, const Node *n)
+{
+	uint32_t a = LIN(cs, n->ip);
+	int k = 0;
+	uint8_t op;
+	if (n->bad || n->in.osz != 2 || (n->in.op != OP_PUSH && n->in.op != OP_MOV))
+		return 0;
+	while (k < 3 && (img[a + k] == 0x26 || img[a + k] == 0x2E || img[a + k] == 0x36 || img[a + k] == 0x3E))
+		k++;
+	op = img[a + k];
+	return op == 0x68 || (op >= 0xB8 && op <= 0xBF) || op == 0xC7;
+}
+
+/* the function prologues Borland emits (push bp / mov bp,sp; enter n,0) and the one
+ * of interrupt handlers that load DGROUP (push ds / mov ax,seg / mov ds,ax) */
+static int strong_prologue(uint16_t cs, uint16_t ip)
+{
+	uint32_t t = LIN(cs, ip);
+	if (t < img_lo || t + 6 > img_hi)
+		return 0;
+	return (img[t] == 0x55 && img[t + 1] == 0x8B && img[t + 2] == 0xEC) ||
+	       (img[t] == 0xC8 && img[t + 3] == 0x00) ||
+	       (img[t] == 0x1E && img[t + 1] == 0xB8 && img[t + 4] == 0x8E && img[t + 5] == 0xD8);
+}
+
+/* far pointers the code builds from immediates: the segment is a relocated immediate
+ * and the offset is the immediate of the instruction next to it, as in push seg /
+ * push off (callbacks passed as arguments: the explosion's pixel plotters 182B:04A3
+ * and 050E, 331D:0004) or mov es:[bx+1e],seg / mov es:[bx+1c],off (2DD4:04D3). All
+ * were interpreted in 0.3.3; neighbours that are not such pointers fail the prologue
+ * test. Uses the nodes explore() just built for one function of segment cs. */
+static int scan_code_pointers(uint16_t cs)
+{
+	int k, d, added = 0;
+	for (k = 0; k < nnodes; k++) {
+		const Node *n = &nodes[k];
+		uint32_t sa;
+		uint16_t seg;
+		int nb[2];
+		if (!ends_in_imm16(cs, n))
+			continue;
+		sa = LIN(cs, (uint16_t)(n->ip + n->in.len - 2));
+		if (!relmap[sa])
+			continue;
+		seg = (uint16_t)(img[sa] | (img[sa + 1] << 8));
+		if (!(is_code_seg(seg) || (seg >= LOAD_SEG && seg < LOAD_SEG + DGROUP_PARA)))
+			continue;
+		/* the instructions right before and right after this one */
+		nb[0] = -1;
+		for (d = 1; d <= 8 && d <= n->ip; d++) {
+			int j = node_at[(uint16_t)(n->ip - d)];
+			if (j >= 0 && (uint16_t)(nodes[j].ip + nodes[j].in.len) == n->ip) {
+				nb[0] = j;
+				break;
+			}
+		}
+		nb[1] = node_at[(uint16_t)(n->ip + n->in.len)];
+		for (d = 0; d < 2; d++) {
+			const Node *m;
+			uint32_t oa;
+			uint16_t off;
+			if (nb[d] < 0)
+				continue;
+			m = &nodes[nb[d]];
+			if (!ends_in_imm16(cs, m))
+				continue;
+			oa = LIN(cs, (uint16_t)(m->ip + m->in.len - 2));
+			if (relmap[oa])
+				continue;
+			off = (uint16_t)(img[oa] | (img[oa + 1] << 8));
+			if (find_func(seg, off) >= 0 || !strong_prologue(seg, off) || !plausible_code(seg, off))
+				continue;
+			if (add_func(seg, off, 1) == nfuncs - 1)
+				added++;
+		}
 	}
 	return added;
 }
@@ -1321,7 +1404,7 @@ static int cmp_func(const void *a, const void *b)
 
 int main(int argc, char **argv)
 {
-	int i, added;
+	int i, added, code_ptrs = 0;
 	char path[1024];
 	FILE *hdr, *idx, *o = NULL;
 	uint16_t cur_seg = 0;
@@ -1350,6 +1433,7 @@ int main(int argc, char **argv)
 				if (!funcs[i].explored) {
 					funcs[i].explored = 1;
 					explore(&funcs[i], 0);
+					code_ptrs += scan_code_pointers(funcs[i].cs);
 				}
 			}
 			added = scan_far_pointers();
@@ -1393,7 +1477,8 @@ int main(int argc, char **argv)
 				}
 			}
 		}
-		fprintf(stderr, "%d functions, %d resume points, %d new\n", nfuncs, resumes, fresh);
+		fprintf(stderr, "%d functions (%d from far pointers in code), %d resume points, %d new\n", nfuncs,
+		        code_ptrs, resumes, fresh);
 		if (!fresh)
 			break;
 	}

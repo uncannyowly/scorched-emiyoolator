@@ -1,0 +1,319 @@
+# rounds: the walkfire setup (player 1 against a computer player), then 4 minutes of
+# play: A fires every 4 s, Up now and then changes the angle, B leaves the shop between
+# rounds. Long regression session: several rounds, AI turns, the shop, generated and
+# scanned terrain.
+# 1. main menu: SELECT, D D R R (S), A, B
+# 2. player 1: SELECT, A (S), START, START, B
+# 3. player 2: B, X, SELECT, D R R R R R (M), A, START, B
+1500 pad SELECT
+1600 pad
+1800 pad DOWN
+1900 pad
+2000 pad DOWN
+2100 pad
+2200 pad RIGHT
+2300 pad
+2400 pad RIGHT
+2500 pad
+2600 pad A
+2700 pad
+2800 pad B
+2900 pad
+4000 pad SELECT
+4100 pad
+4300 pad A
+4400 pad
+4600 pad START
+4700 pad
+4900 pad START
+5000 pad
+5200 pad B
+5300 pad
+6000 pad B
+6100 pad
+6400 pad X
+6500 pad
+6800 pad SELECT
+6900 pad
+7100 pad DOWN
+7200 pad
+7300 pad RIGHT
+7400 pad
+7500 pad RIGHT
+7600 pad
+7700 pad RIGHT
+7800 pad
+7900 pad RIGHT
+8000 pad
+8100 pad RIGHT
+8200 pad
+8400 pad A
+8500 pad
+8700 pad START
+8800 pad
+9000 pad B
+9100 pad
+13500 pad UP
+14200 pad
+14500 pad A
+14600 pad
+20000 pad A
+20100 pad
+22000 pad B
+22100 pad
+24000 pad A
+24100 pad
+24300 pad UP
+24700 pad
+26000 pad B
+26100 pad
+28000 pad A
+28100 pad
+30000 pad B
+30100 pad
+32000 pad A
+32100 pad
+34000 pad B
+34100 pad
+36000 pad A
+36100 pad
+36300 pad UP
+36700 pad
+38000 pad B
+38100 pad
+40000 pad A
+40100 pad
+42000 pad B
+42100 pad
+44000 pad A
+44100 pad
+46000 pad B
+46100 pad
+48000 pad A
+48100 pad
+48300 pad UP
+48700 pad
+50000 pad B
+50100 pad
+52000 pad A
+52100 pad
+54000 pad B
+54100 pad
+56000 pad A
+56100 pad
+58000 pad B
+58100 pad
+60000 pad A
+60100 pad
+60300 pad UP
+60700 pad
+61000 shot build/shots/r060.ppm
+62000 pad B
+62100 pad
+64000 pad A
+64100 pad
+66000 pad B
+66100 pad
+68000 pad A
+68100 pad
+70000 pad B
+70100 pad
+72000 pad A
+72100 pad
+72300 pad UP
+72700 pad
+74000 pad B
+74100 pad
+76000 pad A
+76100 pad
+78000 pad B
+78100 pad
+80000 pad A
+80100 pad
+82000 pad B
+82100 pad
+84000 pad A
+84100 pad
+84300 pad UP
+84700 pad
+86000 pad B
+86100 pad
+88000 pad A
+88100 pad
+90000 pad B
+90100 pad
+92000 pad A
+92100 pad
+94000 pad B
+94100 pad
+96000 pad A
+96100 pad
+96300 pad UP
+96700 pad
+98000 pad B
+98100 pad
+100000 pad A
+100100 pad
+102000 pad B
+102100 pad
+104000 pad A
+104100 pad
+106000 pad B
+106100 pad
+108000 pad A
+108100 pad
+108300 pad UP
+108700 pad
+110000 pad B
+110100 pad
+112000 pad A
+112100 pad
+114000 pad B
+114100 pad
+116000 pad A
+116100 pad
+118000 pad B
+118100 pad
+120000 pad A
+120100 pad
+120300 pad UP
+120700 pad
+121000 shot build/shots/r120.ppm
+122000 pad B
+122100 pad
+124000 pad A
+124100 pad
+126000 pad B
+126100 pad
+128000 pad A
+128100 pad
+130000 pad B
+130100 pad
+132000 pad A
+132100 pad
+132300 pad UP
+132700 pad
+134000 pad B
+134100 pad
+136000 pad A
+136100 pad
+138000 pad B
+138100 pad
+140000 pad A
+140100 pad
+142000 pad B
+142100 pad
+144000 pad A
+144100 pad
+144300 pad UP
+144700 pad
+146000 pad B
+146100 pad
+148000 pad A
+148100 pad
+150000 pad B
+150100 pad
+152000 pad A
+152100 pad
+154000 pad B
+154100 pad
+156000 pad A
+156100 pad
+156300 pad UP
+156700 pad
+158000 pad B
+158100 pad
+160000 pad A
+160100 pad
+162000 pad B
+162100 pad
+164000 pad A
+164100 pad
+166000 pad B
+166100 pad
+168000 pad A
+168100 pad
+168300 pad UP
+168700 pad
+170000 pad B
+170100 pad
+172000 pad A
+172100 pad
+174000 pad B
+174100 pad
+176000 pad A
+176100 pad
+178000 pad B
+178100 pad
+180000 pad A
+180100 pad
+180300 pad UP
+180700 pad
+181000 shot build/shots/r180.ppm
+182000 pad B
+182100 pad
+184000 pad A
+184100 pad
+186000 pad B
+186100 pad
+188000 pad A
+188100 pad
+190000 pad B
+190100 pad
+192000 pad A
+192100 pad
+192300 pad UP
+192700 pad
+194000 pad B
+194100 pad
+196000 pad A
+196100 pad
+198000 pad B
+198100 pad
+200000 pad A
+200100 pad
+202000 pad B
+202100 pad
+204000 pad A
+204100 pad
+204300 pad UP
+204700 pad
+206000 pad B
+206100 pad
+208000 pad A
+208100 pad
+210000 pad B
+210100 pad
+212000 pad A
+212100 pad
+214000 pad B
+214100 pad
+216000 pad A
+216100 pad
+216300 pad UP
+216700 pad
+218000 pad B
+218100 pad
+220000 pad A
+220100 pad
+222000 pad B
+222100 pad
+224000 pad A
+224100 pad
+226000 pad B
+226100 pad
+228000 pad A
+228100 pad
+228300 pad UP
+228700 pad
+230000 pad B
+230100 pad
+232000 pad A
+232100 pad
+234000 pad B
+234100 pad
+236000 pad A
+236100 pad
+238000 pad B
+238100 pad
+241000 shot build/shots/r240.ppm

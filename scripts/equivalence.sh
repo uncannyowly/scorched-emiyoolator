@@ -10,7 +10,7 @@ cd "$ROOT" || exit 1
 OUT=build/eq
 mkdir -p "$OUT" build/shots
 
-ms() { case $1 in cover) echo 90000;; mouse) echo 7000;; walkfire) echo 18500;; mod2) echo 21600;; esac; }
+ms() { case $1 in cover) echo 90000;; mouse) echo 7000;; walkfire) echo 18500;; mod2) echo 21600;; rounds) echo 240000;; weapons) echo 150000;; esac; }
 pad() { case $1 in cover) echo "";; *) echo "--pad";; esac; }
 fresh() { # a clean game directory with the port's first-start settings
 	rm -rf "$1"; mkdir -p "$1"
@@ -24,14 +24,14 @@ run() { # binary test name extra-args
 }
 
 make host interp >/dev/null || exit 1
-for t in cover mouse walkfire mod2; do
+for t in cover mouse walkfire mod2 rounds weapons; do
 	run scorch $t c_$t "" &
 	run scorch-interp $t i_$t "" &
 	run scorch $t f30_$t "--fps 30" &
 done
 wait
 fail=0
-for t in cover mouse walkfire mod2; do
+for t in cover mouse walkfire mod2 rounds weapons; do
 	for v in c f30; do
 		if cmp -s "$OUT/${v}_$t.txt" "$OUT/i_$t.txt"; then r=identical; else r=DIFFERENT; fail=1; fi
 		echo "$t: $v vs interpreter: $r ($(wc -l < "$OUT/i_$t.txt") events)"
@@ -41,7 +41,7 @@ done
 
 if [ "${1:-}" = arm ]; then
 	[ -x build/miyoo/scorch ] || scripts/build-miyoo.sh >/dev/null
-	for t in cover walkfire mod2; do
+	for t in cover walkfire mod2 rounds weapons; do
 		d=$OUT/arm_$t; fresh "$d"
 		sed 's#build/shots/#/game/#' tests/$t.txt > "$d/s.txt"
 		docker run --rm --platform linux/arm/v7 -v "$ROOT/build/miyoo:/app:ro" -v "$ROOT/$d:/game" \
@@ -49,7 +49,7 @@ if [ "${1:-}" = arm ]; then
 			--script /game/s.txt --log /game/log.txt --trace-events /game/ev.txt &
 	done
 	wait
-	for t in cover walkfire mod2; do
+	for t in cover walkfire mod2 rounds weapons; do
 		if cmp -s "$OUT/arm_$t/ev.txt" "$OUT/i_$t.txt"; then r=identical; else r=DIFFERENT; fail=1; fi
 		echo "$t: ARM vs PC interpreter: $r"
 	done
